@@ -1,0 +1,6 @@
+@PROYECTO2_PROMOCIONES_EMANOSALVAS_HostAddress = http://localhost:5028
+
+GET {{PROYECTO2_PROMOCIONES_EMANOSALVAS_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
