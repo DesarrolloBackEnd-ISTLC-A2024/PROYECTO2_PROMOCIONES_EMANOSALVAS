@@ -42,6 +42,7 @@ namespace PROYECTO2_PROMOCIONES_EMANOSALVAS.Controllers
         [HttpPut("{cedula}")]
         public void Put(string cedula, [FromBody] Cliente objCliente)
         {
+
             ConexionBD.PutCliente(cedula,objCliente);
         }
 
