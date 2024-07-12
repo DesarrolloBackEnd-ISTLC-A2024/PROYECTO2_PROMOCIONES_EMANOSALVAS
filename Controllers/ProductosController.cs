@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PROYECTO2_PROMOCIONES_EMANOSALVAS.Comunes;
+using PROYECTO2_PROMOCIONES_EMANOSALVAS.Model;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,36 +10,63 @@ namespace PROYECTO2_PROMOCIONES_EMANOSALVAS.Controllers
     [ApiController]
     public class ProductosController : ControllerBase
     {
-        // GET: api/<ProductosController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public List<Producto> Get()
         {
-            return new string[] { "value1", "value2" };
+            return ConexionBD.GetProductos();
         }
 
-        // GET api/<ProductosController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+      
+        [HttpGet("{codigo}")]
+        public Producto Get(string codigo)
         {
-            return "value";
+            return ConexionBD.GetProducto(codigo);
         }
 
-        // POST api/<ProductosController>
+        // POST api/<ClientesController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] Producto objProducto)
         {
+            ConexionBD.PostProducto(objProducto);
         }
 
-        // PUT api/<ProductosController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+
+        [HttpPut("{codigo}")]
+        public void Put(string codigo, [FromBody] Producto objProducto)
         {
+            ConexionBD.PutProducto(codigo, objProducto);
         }
+
 
         // DELETE api/<ProductosController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
         }
+
+
+        [HttpGet("{codigo_producto}/{cedula}")]
+        public decimal GetPrecioPromocion(string codigo_producto, string cedula)
+        {
+            Producto objProducto= new Producto();
+            objProducto = ConexionBD.GetProducto(codigo_producto);
+            decimal descuento_producto = ConexionBD.GetPromocionProducto(objProducto.id_producto);
+            decimal descuento_cliente = ConexionBD.GetPromocionCliente(cedula);
+
+            decimal total_porcentaje_descuento= descuento_producto+descuento_cliente;
+            decimal descuento_total = 0;
+            if (total_porcentaje_descuento <= 100)
+            {
+                descuento_total = objProducto.precio * total_porcentaje_descuento / 100;
+            }
+            else
+            {
+                descuento_total = objProducto.precio;
+            }
+
+            return objProducto.precio- descuento_total;
+
+        }
+
     }
 }

@@ -17,12 +17,19 @@ namespace PROYECTO2_PROMOCIONES_EMANOSALVAS.Controllers
             return ConexionBD.GetClientes();
         }
 
-        // GET api/<ClientesController>/5
-        [HttpGet("{cedula}")]
-        public Cliente Get(string cedula)
+        //// GET api/<ClientesController>/5
+        //[HttpGet("{cedula}")]
+        //public Cliente Get(string cedula)
+        //{
+        //    return ConexionBD.GetCliente(cedula);
+        //}
+
+        [HttpGet("{cedulaHistorial}")]
+        public List<HistorialVisita> GetHistorialVisitas(string cedulaHistorial)
         {
-            return ConexionBD.GetCliente(cedula);
+            return ConexionBD.GetHistorialVisita(cedulaHistorial);
         }
+
 
         // POST api/<ClientesController>
         [HttpPost]
